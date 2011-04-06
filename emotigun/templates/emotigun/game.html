@@ -1,0 +1,59 @@
+{% extends "emotigun/base.html" %}
+{% block title %}EmotiGUN!{% endblock %}
+
+{% block extra_head %}
+{{ block.super }}
+<script src="{{ STATIC_URL }}js/processing-1.1.0.min.js"></script>   
+{% endblock %}
+
+{% block content %}
+	<h1>EmotiGUN!</h1>  
+	<h2>A game of being humans</h2>  
+	<p>Clock</p>  
+	  
+	<p><canvas id="gameCanvas" width="640" height="480"></canvas></p>  
+	  
+	<script id="gameScript" type="text/javascript">  
+	  
+	// Simple way to attach js code to the canvas is by using a function  
+	function sketchProc(processing) {  
+		processing.setup = function() {
+			processing.size(640,480);
+		}
+		    
+		// Override draw function, by default it will be called 60 times per second  
+		processing.draw = function() {  
+			 // determine center and max clock arm length  
+			 var centerX = processing.width / 2, centerY = processing.height / 2;  
+			 var maxArmLength = Math.min(centerX, centerY);  
+			 
+			
+			 processing.background(224);  
+			 
+			 processing.fill(255);
+			 processing.rectMode(processing.CENTER);
+			 processing.pushMatrix();
+             processing.translate(centerX,centerY);
+			 processing.scale(2.0);
+			 
+			 var from = processing.color(204, 102, 0);
+			 var to = processing.color(0, 102, 153);
+			 var interA = processing.lerpColor(from, to, (processing.frameCount % 100) / 100.0);
+			 
+			 processing.fill(interA);
+
+			 processing.rect(0,0,100,100);
+			 processing.popMatrix();
+			
+		};  
+		    
+	}  
+	  
+	var canvas = document.getElementById("gameCanvas");  
+	// attaching the sketchProc function to the canvas  
+	var p = new Processing(canvas, sketchProc);  
+	// p.exit(); to detach it  
+	</script>  
+	  
+	<div style="height:0px;width:0px;overflow:hidden;"></div>  
+{% endblock %}
