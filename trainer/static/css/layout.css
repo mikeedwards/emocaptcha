@@ -81,3 +81,43 @@ h1, h2, h3, h4 { font-family: 'Copse', arial, serif; }
 	width: 100px;
 	float: left;
 }
+
+#human-widget {
+	font-family: 'Slackey', serif;
+	font-size: 13px;
+	width: 100px;
+	float: left;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	padding: 10px;
+	text-align: center;
+}
+
+.human {
+	background-color: #090;
+	color: #fff;
+}
+
+.robot {
+	background-color: #600;
+	color: #fff;
+}
+
+#code-footer {
+	font-family: 'Copse', arial, serif;
+	font-size: 10px;
+	width: 390px;
+	float: left;
+	clear: left;
+	background-color: rgb(102,153,204);
+	color: #fff;
+	padding: 5px;
+	margin-top: 20px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	-moz-box-shadow: 4px 4px 4px #888;
+	-webkit-box-shadow: 4px 4px 4px #888;
+	box-shadow: 4px 4px 4px #888;
+}

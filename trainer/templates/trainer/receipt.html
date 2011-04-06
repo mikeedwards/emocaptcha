@@ -32,14 +32,23 @@
 		{% endifequal %}
 		</span>
 		<div class="valence-result">
+		{% if form.instance.term.scores.afinn111_scores %}
 		you: {{ form.instance.term.scores.submissions.0.valence }} |
 		us: {{ form.instance.term.scores.afinn111_scores.0.valence }}
+		{% else %}
+		RESEARCH WORD!
+		{% endif %}
 		</div>
-		{{ form.valence }}
-		{{ form.term }}
 	</div>
 	{% endfor %}
-	
+	<div class="term-widget">
+		<h2>EmoCAPTCHA</h2>
+		{% if humanity.test %}
+		<div id="human-widget" class="human">Human!</div>
+		{% else %}
+		<div id="human-widget" class="robot">Robot!</div>
+		{% endif %}
+	</div>	
 </div>
 <div style="clear:left; padding-top: 20px;"><h3><a href="{% url trainer_submission %}">Try again</a></h3>	</div>
 

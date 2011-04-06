@@ -4,6 +4,7 @@ from EmoCaptcha.trainer.forms import SubmissionForm, SubmissionFormset
 from EmoCaptcha import settings
 from random import shuffle
 from EmoCaptcha.trainer.models import Submission, Term
+import math
 
 class HomeView(TemplateView):
     template_name = "trainer/base.html"
@@ -46,15 +47,24 @@ class SubmissionView(TemplateView):
         context = self.get_context_data(**kwargs)
         
         formset = SubmissionFormset(self.request.POST)
+        
+        humanity_delta = 0
+        human_test = True
 
         for form in formset.forms:
             if form.is_valid():
                 submission = form.save(False)
                 submission.ip = self.request.META["REMOTE_ADDR"]
                 submission.save()
+                if len(submission.term.afinn111_scores.all()) > 0:
+                    humanity_delta += abs(submission.term.afinn111_scores.all()[0].valence - submission.valence)
+
+        if humanity_delta > 4:
+            human_test = False
 
         self.template_name = "trainer/receipt.html"
         
         context['formset'] = formset
+        context['humanity'] = {'delta':humanity_delta,'test':human_test}
         
         return self.render_to_response(context)
