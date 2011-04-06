@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^game/', include('EmoCaptcha.emotigun.urls')),
     url(r'^trainer/', include('EmoCaptcha.trainer.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

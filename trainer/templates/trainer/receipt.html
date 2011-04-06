@@ -43,11 +43,15 @@
 	{% endfor %}
 	<div class="term-widget">
 		<h2>EmoCAPTCHA</h2>
-		{% if humanity.test %}
-		<div id="human-widget" class="human">Human!</div>
+		{% if humanity %}
+			{% if humanity.test %}
+                <div id="human-widget" class="human">Human!</div>
+			{% else %}
+                <div id="human-widget" class="robot">Robot!</div>
+			{% endif %}
 		{% else %}
-		<div id="human-widget" class="robot">Robot!</div>
-		{% endif %}
+            <div id="human-widget">Error!</div>
+        {% endif %}
 	</div>	
 </div>
 <div style="clear:left; padding-top: 20px;"><h3><a href="{% url trainer_submission %}">Try again</a></h3>	</div>

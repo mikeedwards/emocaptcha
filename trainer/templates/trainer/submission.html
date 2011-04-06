@@ -29,11 +29,16 @@
 		Slide the bar left or right for each word<br>
 		&lt;-- negative | positive --&gt;
 		</div>
-	<form action="{% url trainer_submission %}" method="post">
+	{% if params.to_api %}
+        <form action="{% url trainer_responses_detail_api %}" method="post">
+	{% else %}
+        <form action="{% url trainer_submission %}" method="post">
+    {% endif %}
 		{% csrf_token %}
 		{{ formset.management_form }}
 		{% for form in formset.forms %}
 		<div class="term-widget">
+		{{ form.initial.request.slug }}
 			<span class="term">{{ form.initial.term.body }}{{ form.instance.term.body }}
 			{# ifequal form.initial.term.body random_word #}
 			
@@ -45,6 +50,7 @@
 			</div>
 			{{ form.valence }}
 			{{ form.term }}
+            {{ form.request }}
 		</div>
 		{% endfor %}
 		<div class="term-widget">

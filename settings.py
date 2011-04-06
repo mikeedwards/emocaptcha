@@ -118,7 +118,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django_extensions',
     'south',
+    'piston',
     'trainer',
+    'emotigun',
 )
 
 # A sample logging configuration. The only tangible logging

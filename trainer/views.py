@@ -1,10 +1,8 @@
 # Create your views here.
 from django.views.generic.base import TemplateView
-from EmoCaptcha.trainer.forms import SubmissionForm, SubmissionFormset
-from EmoCaptcha import settings
+from EmoCaptcha.trainer.forms import SubmissionFormset
 from random import shuffle
-from EmoCaptcha.trainer.models import Submission, Term
-import math
+from EmoCaptcha.trainer.models import Request, Response
 
 class HomeView(TemplateView):
     template_name = "trainer/base.html"
@@ -14,32 +12,24 @@ class SubmissionView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(SubmissionView,self).get_context_data(**kwargs)
-        shuffle(settings.WORDS)
         
-        context['random_word'] = settings.WORDS[0]
+        return context
+    
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
         
-        terms = list(Term.objects.all())
-        shuffle(terms)
-        
-        random_terms = terms[:4]
+        request = Request.objects.create(ip=self.request.META["REMOTE_ADDR"])
         
         initial = []
         
-        for term in random_terms:
-            initial.append({'term':term})
-        
-        initial.append({'term':Term.objects.create(body = settings.WORDS[0])})
+        for term in request.terms.all():
+            initial.append({'request':request,'term':term})
         
         shuffle(initial)
 
         formset = SubmissionFormset(initial=initial)
 
         context['formset'] = formset
-
-        return context
-    
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
         
         return self.render_to_response(context)
     
@@ -48,23 +38,41 @@ class SubmissionView(TemplateView):
         
         formset = SubmissionFormset(self.request.POST)
         
-        humanity_delta = 0
-        human_test = True
+        if formset.is_valid():
 
-        for form in formset.forms:
-            if form.is_valid():
-                submission = form.save(False)
-                submission.ip = self.request.META["REMOTE_ADDR"]
-                submission.save()
-                if len(submission.term.afinn111_scores.all()) > 0:
-                    humanity_delta += abs(submission.term.afinn111_scores.all()[0].valence - submission.valence)
+            response = None 
+    
+            for form in formset.forms:
+                if form.is_valid():
+                    submission = form.save(False)
+                    
+                    #does this request already have a response?
+                    if response is None:
+                        if len(submission.request.responses.all()) > 0:
+                            response = submission.request.responses.all()[0]
+                            break
+                        else:
+                            response = Response()
+                    
+                    #does this response link to the request?    
+                    try:
+                        response.request
+                    except (Request.DoesNotExist):
+                        response.request = submission.request
+                        response.save()
+                        
+                    #do the terms in the form match the request?
+                    try: 
+                        response.request.terms.get(body=form.cleaned_data["term"].body)
+                        submission.save()
+                    except:
+                        print "Term does not exist in request"
+                        break
 
-        if humanity_delta > 4:
-            human_test = False
+            context['humanity'] = {'delta':response.delta,'test':response.human}
 
         self.template_name = "trainer/receipt.html"
         
         context['formset'] = formset
-        context['humanity'] = {'delta':humanity_delta,'test':human_test}
         
         return self.render_to_response(context)
