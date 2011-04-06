@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+		{% block extra_head %}
+		<link href='http://fonts.googleapis.com/css?family=Copse' rel='stylesheet' type='text/css'>	
+		<link  href="http://fonts.googleapis.com/css?family=Slackey:regular" rel="stylesheet" type="text/css" >
+		<link href='{{ STATIC_URL }}css/layout.css' rel='stylesheet' type='text/css'>	
+		{% endblock %}
+	</head>
+	{% block body %}
+	<body>
+	{% block menu %}{% endblock %}
+	{% block content %}{% endblock %}
+	</body>
+	{% endblock %}
+</html>

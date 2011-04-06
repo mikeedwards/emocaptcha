@@ -1,0 +1,46 @@
+{% extends "trainer/base.html" %}
+{% block title %}{{ block.super }} - Submit{% endblock %}
+
+{% block extra_head %}
+{{ block.super }}
+	<script>
+	$(function() {
+		$( ".valence-widget" ).slider({value:0,
+			min:-5,
+			max:5,
+			step:.1,
+			slide: function( event, ui ){
+					var valence = $(this).parent().children(".valence-input");
+					valence.val(ui.value);
+				}
+				});
+		$("#valence-submit").button();
+	});
+	</script>
+{% endblock %}
+
+{% block content %}
+
+<div id="captcha-widget">
+	{% csrf_token %}
+	{{ formset.management_form }}
+	{% for form in formset.forms %}
+	<div class="term-widget">
+		<span class="term">{{ form.initial.term.body }}{{ form.instance.term.body }}
+		{% ifequal form.instance.term.body random_word %}
+		*
+		{% endifequal %}
+		</span>
+		<div class="valence-result">
+		you: {{ form.instance.term.scores.submissions.0.valence }} |
+		us: {{ form.instance.term.scores.afinn111_scores.0.valence }}
+		</div>
+		{{ form.valence }}
+		{{ form.term }}
+	</div>
+	{% endfor %}
+	
+</div>
+<div style="clear:left; padding-top: 20px;"><h3><a href="{% url trainer_submission %}">Try again</a></h3>	</div>
+
+{% endblock %}

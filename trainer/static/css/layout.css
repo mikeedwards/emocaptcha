@@ -1,0 +1,83 @@
+h1, h2, h3, h4 { font-family: 'Copse', arial, serif; }
+
+#captcha-widget { 
+	width: 380px;
+	background-color: rgb(153,204,255);
+	border-color: rgb(102,153,204);
+	border-style: solid;
+	border-width: 1px;
+	padding: 10px;
+	float: left;
+	clear: both;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	-moz-box-shadow: 4px 4px 4px #888;
+	-webkit-box-shadow: 4px 4px 4px #888;
+	box-shadow: 4px 4px 4px #888;
+}
+
+#captcha-instruction {
+	font-family: 'Copse', arial, serif;
+	width: 360px;
+	text-align: center;
+	float: right;
+	clear: both;
+}
+
+.term { font-family: 'Copse', arial, serif;
+	float: left;
+	width: 120px;
+	height: 30px;
+	padding: 5px 0px;
+	display: block;
+	clear:left;
+}
+
+.valence-widget {
+	margin: 10px 0px 10px 10px !important;
+	width: 176px;
+	float: left;
+}
+
+.valence-score {
+	font-family: 'Copse', arial, serif;
+	font-size: 8pt;
+	background-color: #fff;
+	border: 1px solid rgb(102,153,204);
+	margin: 10px 0px 10px 10px !important;
+	padding: 0px 5px !important;
+	width: 20px;
+	float: left;
+	clear: right;
+}
+
+.valence-result {
+	font-family: 'Copse', arial, serif;
+	font-size: 8pt;
+	background-color: #fff;
+	border: 1px solid rgb(102,153,204);
+	margin: 10px 0px 10px 10px !important;
+	padding: 0px 5px !important;
+	width: 200px;
+	float: left;
+	clear: right;
+}
+
+.term-widget h2 {
+	font-family: 'Slackey', serif;
+	font-size: 26px;
+	font-style: normal;
+	font-weight: 400;
+	width: 250px;
+	float: left;
+	clear: left;
+	margin: 5px 0px;
+}
+
+
+#valence-submit {
+	font-family: 'Copse', arial, serif;
+	width: 100px;
+	float: left;
+}

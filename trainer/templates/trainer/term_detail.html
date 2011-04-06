@@ -1,0 +1,25 @@
+{% extends "trainer/base.html" %}
+
+{% block title %}{{ block.super }} - Term:{{ object.body }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ object.body }}</h1>
+
+<dl>
+{% for key,scores in object.scores.items %}
+	<dt>{{ key }}</dt>
+	<dd>
+		<dl>
+			{% for score in scores %}
+				{% ifnotequal score.valence None %}
+					<dt>Valence</dt>
+					<dd>{{ score.valence }}</dd>
+				{% endifnotequal %}
+			{% endfor %}
+		</dl>
+	</dd>
+{% endfor %}
+</dl>
+
+{% endblock %}

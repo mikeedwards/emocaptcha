@@ -1,0 +1,57 @@
+{% extends "trainer/base.html" %}
+{% block title %}{{ block.super }} - Submit{% endblock %}
+
+{% block extra_head %}
+{{ block.super }}
+	<script>
+	$(function() {
+		$( ".valence-widget" ).slider({value:0,
+			min:-5,
+			max:5,
+			step:.1,
+			slide: function( event, ui ){
+					var valence = $(this).parent().children(".valence-input");
+					valence.val(ui.value);
+					var score = $(this).parent().children(".valence-score");
+					score.text(ui.value);
+				}
+				});
+		$("#valence-submit").button();
+	});
+	</script>
+{% endblock %}
+
+{% block content %}
+
+<div id="captcha-widget">
+		<div id="captcha-instruction">
+		How do these words feel to you?<br>
+		Slide the bar left or right for each word<br>
+		&lt;-- negative | positive --&gt;
+		</div>
+	<form action="{% url trainer_submission %}" method="post">
+		{% csrf_token %}
+		{{ formset.management_form }}
+		{% for form in formset.forms %}
+		<div class="term-widget">
+			<span class="term">{{ form.initial.term.body }}{{ form.instance.term.body }}
+			{# ifequal form.initial.term.body random_word #}
+			
+			{# endifequal #}
+			</span>
+			<div class="valence-widget">
+			</div>
+			<div class="valence-score">0
+			</div>
+			{{ form.valence }}
+			{{ form.term }}
+		</div>
+		{% endfor %}
+		<div class="term-widget">
+			<h2>EmoCAPTCHA</h2>
+			<input id="valence-submit" type="submit"/>
+		</div>
+	</form>
+</div>
+
+{% endblock %}
