@@ -1,0 +1,13 @@
+{% extends "trainer/base.html" %}
+
+{% block title %}{{ block.super }} - Requests{% endblock %}
+
+{% block content %}
+
+<ul>
+{% for object in object_list %}
+	<li><a href="{{ object.get_absolute_url }}">{{ object.ip }} {{ object.created }}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

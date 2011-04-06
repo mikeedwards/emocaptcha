@@ -1,0 +1,11 @@
+{% extends "trainer/base.html" %}
+
+{% block title %}{{ block.super }} - Request:{{ object.slug }}{% endblock %}
+
+{% block content %}
+
+<h1>{{ object.slug }}</h1>
+<h2>{{ object.ip }}</h2>
+<h3>{{ object.created }}</h3>
+
+{% endblock %}
