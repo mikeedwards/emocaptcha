@@ -41,7 +41,7 @@ class AFINN111Score(models.Model):
     term = models.ForeignKey(Term,related_name="afinn111_scores")
     valence = models.SmallIntegerField()
     
-    class Meta():
+    class Meta:
         verbose_name = "AFINN.111 score"
         verbose_name_plural = "AFINN.111 scores"
     
